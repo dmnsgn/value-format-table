@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>
+      value-format-table by Damien Seguin (https://github.com/dmnsgn)
+    </title>
+    <style>
+      :root {
+        --color-dark: #404040;
+        --color-light: #f2f2f2;
+        --color-accent: #fd5e62;
+      }
+
+      body {
+        margin: 0;
+        overscroll-behavior: none;
+        font-family: sans-serif;
+        color: var(--color-dark);
+        background-color: var(--color-light);
+      }
+
+      main {
+        padding: 0 20px;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid;
+      }
+      th,
+      td {
+        padding: 10px;
+      }
+      th:not(:last-of-type) {
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>value-format-table</h1>
+      <p>
+        Data:
+        <a
+          href="https://public.opendatasoft.com/explore/dataset/fromagescsv-fromagescsv/information/"
+          >List of french cheese by department</a
+        >. 🇫🇷 🧀
+      </p>
+      <label>
+        Department:
+        <select class="Select"></select>
+      </label>
+
+      <h2>HTML</h2>
+      <div class="ResultsHtml"></div>
+      <h2>Markdown</h2>
+      <pre class="ResultsMd"></pre>
+      <h2>Text</h2>
+      <pre class="ResultsText"></pre>
+    </main>
+
+    <script type="module">
+      import {
+        valueFormatTableAsText,
+        valueFormatTableAsMarkdown,
+        valueFormatTableAsHTML,
+      } from "./index.js";
+
+      const deparmentSelectElement = document.querySelector(".Select");
+      const resultsHtmlElement = document.querySelector(".ResultsHtml");
+      const resultsTextElement = document.querySelector(".ResultsText");
+      const resultsMdElement = document.querySelector(".ResultsMd");
+
+      // Load data
+      const dataset = await (
+        await fetch(
+          new URL("./examples/fromages-français.json", import.meta.url),
+        )
+      ).json();
+
+      // Parse data
+      const fromagesPerDepartment = Object.groupBy(
+        dataset,
+        ({ departement }) => departement,
+      );
+
+      // Render
+      const toTitleCase = (str) =>
+        str
+          .replaceAll("_", " ")
+          .replace(
+            /\w\S*/g,
+            (text) =>
+              text.charAt(0).toUpperCase() + text.substring(1).toLowerCase(),
+          );
+
+      const toLink = (href) => (!!href ? `<a href="${href}">Link</a>` : "");
+      const toMarkdownLink = (href) => (!!href ? `[Link](${href})` : "");
+
+      const update = (data) => {
+        console.log(data);
+
+        const htmlTable = valueFormatTableAsHTML(data, {
+          formatHeader: toTitleCase,
+          columns: [
+            null,
+            null,
+            { formatCell: toLink },
+            { formatCell: toLink },
+            null,
+            null,
+            {
+              formatCell: (geoPoint) =>
+                `lat: ${geoPoint?.lat}, lon: ${geoPoint?.lon}`,
+            },
+          ],
+        });
+        resultsHtmlElement.innerHTML = htmlTable;
+        console.log(htmlTable);
+
+        const mdTable = valueFormatTableAsMarkdown(data, {
+          formatHeader: toTitleCase,
+          columns: [
+            { align: "right" },
+            { align: "right" },
+            { formatCell: toMarkdownLink },
+            { formatCell: toMarkdownLink },
+          ],
+        });
+        resultsMdElement.innerText = mdTable;
+
+        const textTable = valueFormatTableAsText(data, {
+          formatHeader: toTitleCase,
+          columns: [{ align: "right" }, { align: "right" }],
+        });
+        resultsTextElement.innerHTML = textTable;
+        console.log(textTable);
+      };
+
+      // Events
+      deparmentSelectElement.addEventListener("input", ({ target }) => {
+        const fromages = fromagesPerDepartment[target.value];
+        update(fromages);
+      });
+      deparmentSelectElement.innerHTML = Object.keys(fromagesPerDepartment)
+        .sort()
+        .map(
+          (department) =>
+            `<option value="${department}">${department}</option>`,
+        );
+      deparmentSelectElement.value = "Aube";
+      deparmentSelectElement.dispatchEvent(new InputEvent("input"));
+    </script>
+  </body>
+</html>
