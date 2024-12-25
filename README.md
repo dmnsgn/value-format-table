@@ -63,7 +63,120 @@ console.log(textTable);
 
 <!-- api-start -->
 
-Auto-generated API content.
+## Functions
+
+<dl>
+<dt><a href="#valueFormatTable">valueFormatTable(array, [options])</a> ⇒ <code>string</code></dt>
+<dd><p>Format an array of objects</p>
+</dd>
+<dt><a href="#valueFormatTableAsText">valueFormatTableAsText(array, [options])</a> ⇒ <code>string</code></dt>
+<dd><p>Format an array of objects as text</p>
+</dd>
+<dt><a href="#valueFormatTableAsMarkdown">valueFormatTableAsMarkdown(array, [options])</a> ⇒ <code>string</code></dt>
+<dd><p>Format an array of objects as Markdown</p>
+</dd>
+<dt><a href="#valueFormatTableAsHTML">valueFormatTableAsHTML(array, [options])</a> ⇒ <code>string</code></dt>
+<dd><p>Format an array of objects as HTML</p>
+</dd>
+</dl>
+
+## Typedefs
+
+<dl>
+<dt><a href="#ColumnOptions">ColumnOptions</a> : <code>object</code></dt>
+<dd><p>Options for columns.</p>
+</dd>
+<dt><a href="#ValueFormatTableOptions">ValueFormatTableOptions</a> : <code>object</code></dt>
+<dd><p>Options for table creation. All optional.</p>
+</dd>
+</dl>
+
+<a name="valueFormatTable"></a>
+
+## valueFormatTable(array, [options]) ⇒ <code>string</code>
+
+Format an array of objects
+
+**Kind**: global function
+
+| Param     | Type                                                             |
+| --------- | ---------------------------------------------------------------- |
+| array     | <code>Array.&lt;object&gt;</code>                                |
+| [options] | [<code>ValueFormatTableOptions</code>](#ValueFormatTableOptions) |
+
+<a name="valueFormatTableAsText"></a>
+
+## valueFormatTableAsText(array, [options]) ⇒ <code>string</code>
+
+Format an array of objects as text
+
+**Kind**: global function
+
+| Param     | Type                                                             |
+| --------- | ---------------------------------------------------------------- |
+| array     | <code>Array.&lt;object&gt;</code>                                |
+| [options] | [<code>ValueFormatTableOptions</code>](#ValueFormatTableOptions) |
+
+<a name="valueFormatTableAsMarkdown"></a>
+
+## valueFormatTableAsMarkdown(array, [options]) ⇒ <code>string</code>
+
+Format an array of objects as Markdown
+
+**Kind**: global function
+
+| Param     | Type                                                             |
+| --------- | ---------------------------------------------------------------- |
+| array     | <code>Array.&lt;object&gt;</code>                                |
+| [options] | [<code>ValueFormatTableOptions</code>](#ValueFormatTableOptions) |
+
+<a name="valueFormatTableAsHTML"></a>
+
+## valueFormatTableAsHTML(array, [options]) ⇒ <code>string</code>
+
+Format an array of objects as HTML
+
+**Kind**: global function
+
+| Param     | Type                                                             |
+| --------- | ---------------------------------------------------------------- |
+| array     | <code>Array.&lt;object&gt;</code>                                |
+| [options] | [<code>ValueFormatTableOptions</code>](#ValueFormatTableOptions) |
+
+<a name="ColumnOptions"></a>
+
+## ColumnOptions : <code>object</code>
+
+Options for columns.
+
+**Kind**: global typedef
+**Properties**
+
+| Name           | Type                  | Default                                     |
+| -------------- | --------------------- | ------------------------------------------- |
+| [align]        | <code>string</code>   | <code>&quot;\&quot;left\&quot;&quot;</code> |
+| [formatCell]   | <code>function</code> |                                             |
+| [formatHeader] | <code>function</code> |                                             |
+
+<a name="ValueFormatTableOptions"></a>
+
+## ValueFormatTableOptions : <code>object</code>
+
+Options for table creation. All optional.
+
+**Kind**: global typedef
+**Properties**
+
+| Name             | Type                                                       | Default                                  | Description                                                        |
+| ---------------- | ---------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------ |
+| [columns]        | [<code>Array.&lt;ColumnOptions&gt;</code>](#ColumnOptions) | <code>[]</code>                          | Options for each column.                                           |
+| [wrappings]      | <code>object</code>                                        | <code>{}</code>                          | Wrappings string for each cells in the form [start, end, lastEnd]. |
+| [dividers]       | <code>object</code>                                        | <code>{}</code>                          | Dividers for top, middle and bottom of the table.                  |
+| [minCellSize]    | <code>number</code>                                        | <code>1</code>                           | Minimum cell size.                                                 |
+| [dividerPadding] | <code>string</code>                                        | <code>&quot;\&quot; \&quot;&quot;</code> | Which string to add around dividers cells.                         |
+| [headers]        | <code>string</code>                                        | <code>&quot;\&quot; \&quot;&quot;</code> | Filter specific keys.                                              |
+| [formatHeader]   | <code>function</code>                                      |                                          |                                                                    |
+| [formatDivider]  | <code>function</code>                                      |                                          |                                                                    |
 
 <!-- api-end -->
 
